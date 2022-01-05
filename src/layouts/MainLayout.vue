@@ -97,7 +97,7 @@ const linksList = [
   {
     title: 'График',
     icon: 'event_note',
-    link: 'https://facebook.quasar.dev'
+    link: 'schedule'
   }
 ];
 

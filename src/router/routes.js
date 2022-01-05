@@ -9,6 +9,7 @@ const routes = [
       {path: 'changelog', component: () => import('pages/WSChangeLog')},
       {path: 'employees', component: () => import('pages/Employees')},
       {path: 'assigner', component: () => import('pages/WSAssigner')},
+      {path: 'schedule', component: () => import('pages/WSSchedule')}
     ]
   },
 
