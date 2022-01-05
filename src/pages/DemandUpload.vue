@@ -13,7 +13,7 @@
 
         <q-input
           filled
-          v-model="date"
+          v-model="selectedDate"
           mask="date"
           :rules="['date']"
         >
@@ -25,13 +25,17 @@
                 transition-show="scale"
                 transition-hide="scale"
               >
-                <q-date v-model="date">
+                <q-date v-model="selectedDate">
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup label="Закрыть" color="primary" flat></q-btn>
                   </div>
                 </q-date>
               </q-popup-proxy>
             </q-icon>
+          </template>
+
+          <template v-slot:hint>
+            Введите или выберите дату. ( гггг/мм/дд )
           </template>
         </q-input>
 
@@ -69,6 +73,11 @@
 import {defineComponent} from 'vue';
 
 export default defineComponent({
-  name: 'DemandUpload'
+  name: 'DemandUpload',
+  data () {
+    return {
+      selectedDate: String
+    }
+  }
 })
 </script>
