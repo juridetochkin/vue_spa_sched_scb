@@ -34,6 +34,8 @@ import 'quasar/dist/quasar.sass'
 
 import 'src/css/app.scss'
 
+import '@quasar/quasar-ui-qcalendar/src/index.sass'
+
 
 import createQuasarApp from './app.js'
 import quasarUserOptions from './quasar-user-options.js'
@@ -52,9 +54,64 @@ console.info('[Quasar] Running SPA.')
 const publicPath = ``
 
 
-async function start ({ app, router }) {
+async function start ({ app, router }, bootFiles) {
   
 
+  
+  let hasRedirected = false
+  const getRedirectUrl = url => {
+    try { return router.resolve(url).href }
+    catch (err) {}
+
+    return Object(url) === url
+      ? null
+      : url
+  }
+  const redirect = url => {
+    hasRedirected = true
+
+    if (typeof url === 'string' && /^https?:\/\//.test(url)) {
+      window.location.href = url
+      return
+    }
+
+    const href = getRedirectUrl(url)
+
+    // continue if we didn't fail to resolve the url
+    if (href !== null) {
+      window.location.href = href
+      window.location.reload()
+    }
+  }
+
+  const urlPath = window.location.href.replace(window.location.origin, '')
+
+  for (let i = 0; hasRedirected === false && i < bootFiles.length; i++) {
+    try {
+      await bootFiles[i]({
+        app,
+        router,
+        
+        ssrContext: null,
+        redirect,
+        urlPath,
+        publicPath
+      })
+    }
+    catch (err) {
+      if (err && err.url) {
+        redirect(err.url)
+        return
+      }
+
+      console.error('[Quasar] boot error:', err)
+      return
+    }
+  }
+
+  if (hasRedirected === true) {
+    return
+  }
   
 
   app.use(router)
@@ -76,5 +133,17 @@ async function start ({ app, router }) {
 
 createQuasarApp(createApp, quasarUserOptions)
 
-  .then(start)
+  .then(app => {
+    return Promise.all([
+      
+      import(/* webpackMode: "eager" */ '@quasar/quasar-app-extension-qcalendar/src/boot/register.js')
+      
+    ]).then(bootFiles => {
+      const boot = bootFiles
+        .map(entry => entry.default)
+        .filter(entry => typeof entry === 'function')
+
+      start(app, boot)
+    })
+  })
 
