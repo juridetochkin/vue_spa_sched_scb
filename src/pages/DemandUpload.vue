@@ -13,6 +13,7 @@
 
         <q-input
           filled
+          dense
           v-model="selectedDate"
           mask="date"
           :rules="['date']"
@@ -40,6 +41,7 @@
         </q-input>
 
         <q-file
+          dense
           filled
           counter
           bottom-slots
@@ -60,7 +62,7 @@
 
         <div>
           <q-btn label="Загрузить" type="submit" color="primary"></q-btn>
-          <q-btn label="Отмена" type="reset" color="primary" flat class="q-ml-sm"/>
+          <q-btn label="Отмена" type="reset" color="primary" flat class="q-ml-sm"></q-btn>
         </div>
       </q-form>
 
@@ -74,7 +76,7 @@ import {defineComponent} from 'vue';
 
 export default defineComponent({
   name: 'DemandUpload',
-  data () {
+  data() {
     return {
       selectedDate: String
     }

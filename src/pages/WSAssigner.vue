@@ -6,7 +6,7 @@
     <div class="q-pa-md">
 
       <div class="row justify-center">
-        <div style="display: flex; max-width: 800px; width: 100%">
+        <div style="display: flex; width: 100%">
           <q-calendar-resource
             ref="calendar"
             v-model="selectedDate"
@@ -15,12 +15,24 @@
             resource-label="name"
             animated
             bordered
+            hoverable
+            focusable
+            outlined
+
+            time-clicks-clamped
+
+            @mousedown-time="onMouseDownTime"
+            @mouseup-time="onMouseUpTime"
+            @mousemove-time="onMouseMoveTime"
+
+            interval-minutes="60"
+            interval-start="2"
+            interval-count="20"
+            locale="ru-Ru"
+            hour24-format
             @change="onChange"
             @moved="onMoved"
-            @click-resource="onClickResource"
-            @click-head-resources="onClickHeadResources"
-            @click-interval="onClickInterval"
-          />
+          ></q-calendar-resource>
         </div>
       </div>
 
@@ -31,44 +43,33 @@
 </template>
 
 <script>
-import { QCalendarResource, today } from '@quasar/quasar-ui-qcalendar/src/index.js'
+import {QCalendarResource, today} from '@quasar/quasar-ui-qcalendar/src/index.js'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarVariables.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarTransitions.sass'
 import '@quasar/quasar-ui-qcalendar/src/QCalendarResource.sass'
 
-import { defineComponent } from 'vue'
+import {defineComponent} from 'vue'
 
 export default defineComponent({
   name: 'WSAssigner',
   components: {
     QCalendarResource
   },
-  data () {
+  data() {
     return {
       selectedDate: today(),
       resources: [
-        { id: '1', name: 'John' }
+        {id: '1', name: 'Доступно'},
+        {id: '2', name: 'Доступно'}
       ]
     }
   },
   methods: {
-    onPrev () {
-      this.$refs.calendar.prev()
-    },
-    onNext () {
-      this.$refs.calendar.next()
-    },
-    onMoved (data) {
+    onMoved(data) {
       console.log('onMoved', data)
     },
-    onChange (data) {
+    onChange(data) {
       console.log('onChange', data)
-    },
-    onClickResource (data) {
-      console.log('onClickResource', data)
-    },
-    onClickInterval (data) {
-      console.log('onClickInterval', data)
     }
   }
 })
