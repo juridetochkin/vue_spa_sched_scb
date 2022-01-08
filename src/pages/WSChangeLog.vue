@@ -27,7 +27,7 @@
       <div class="row">
         <q-space></q-space>
         <q-btn color="primary" size="sm" class="text-weight-bold"
-               label="Скачать   excel"></q-btn>
+               label="Скачать excel"></q-btn>
       </div>
 
     </div>

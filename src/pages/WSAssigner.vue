@@ -8,28 +8,23 @@
       <div class="row justify-center">
         <div style="display: flex; width: 100%">
           <q-calendar-resource
+            outlined
+            bordered
+            hoverable
+            hour24-format
+
+            locale="ru-Ru"
             ref="calendar"
             v-model="selectedDate"
             v-model:model-resources="resources"
             resource-key="id"
             resource-label="name"
-            animated
-            bordered
-            hoverable
-            focusable
-            outlined
 
-            time-clicks-clamped
-
-            @mousedown-time="onMouseDownTime"
-            @mouseup-time="onMouseUpTime"
-            @mousemove-time="onMouseMoveTime"
+            cell-width="auto"
 
             interval-minutes="60"
             interval-start="2"
             interval-count="20"
-            locale="ru-Ru"
-            hour24-format
             @change="onChange"
             @moved="onMoved"
           ></q-calendar-resource>

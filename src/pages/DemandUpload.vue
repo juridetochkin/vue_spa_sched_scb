@@ -6,27 +6,29 @@
     <div class="q-pa-md" style="max-width: 300px">
 
       <q-form
-        @submit="onSubmit"
-        @reset="onReset"
         class="q-gutter-md"
+        @reset="onReset"
+        @submit="onSubmit"
       >
-
         <q-input
-          filled
-          dense
           v-model="selectedDate"
+          dense
+          fill-mask
+          filled
           mask="date"
-          :rules="['date']"
         >
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
               <q-popup-proxy
                 ref="qDateProxy"
                 cover
-                transition-show="scale"
                 transition-hide="scale"
+                transition-show="scale"
               >
-                <q-date v-model="selectedDate">
+                <q-date
+                  v-model="selectedDate"
+                  :landscape="$q.screen.gt.xs"
+                >
                   <div class="row items-center justify-end">
                     <q-btn v-close-popup label="Закрыть" color="primary" flat></q-btn>
                   </div>
@@ -41,13 +43,13 @@
         </q-input>
 
         <q-file
+          v-model="model"
+          bottom-slots
+          counter
           dense
           filled
-          counter
-          bottom-slots
-          max-files="1"
           label="Вложение"
-          v-model="model"
+          max-files="1"
         >
           <template v-slot:append>
             <q-icon name="folder_open"></q-icon>
@@ -58,11 +60,14 @@
           </template>
         </q-file>
 
-        <div>Последнее обновление: 3 ноября 2021</div>
+        <div class="column">
+          <div>Последнее обновление:</div>
+          <div>3 ноября 2021 12:00:12</div>
+        </div>
 
         <div>
-          <q-btn label="Загрузить" type="submit" color="primary"></q-btn>
-          <q-btn label="Отмена" type="reset" color="primary" flat class="q-ml-sm"></q-btn>
+          <q-btn color="primary" label="Загрузить" type="submit"></q-btn>
+          <q-btn class="q-ml-sm" color="primary" flat label="Отмена" type="reset"></q-btn>
         </div>
       </q-form>
 
